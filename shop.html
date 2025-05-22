@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elegance Emporium</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-pink-600">Elegance Emporium</a>
+      <nav class="hidden md:flex space-x-6 font-medium">
+        <a href="/" class="text-pink-600">Home</a>
+        <a href="/profile.html" class="hover:text-pink-600">Products</a>
+        <a href="#" class="hover:text-pink-600">About</a>
+        <a href="#" class="hover:text-pink-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-pink-100 text-center py-20 px-6">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-pink-700">Discover Your Style</h1>
+    <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto text-gray-700">
+      Shop the latest trends with elegance and confidence at Elegance Emporium.
+    </p>
+    <a href="/shop.html" class="bg-pink-600 text-white px-6 py-3 rounded hover:bg-pink-700 transition">Shop Now</a>
+  </section>
+
+  <!-- Featured Categories -->
+  <section class="py-16 bg-white">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800">Shop by Category</h2>
+      <p class="text-gray-500">Choose from our handpicked collections</p>
+    </div>
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-4">
+      <div class="bg-pink-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/200x200/?fashion,dress" alt="Dresses" class="mx-auto mb-4 rounded-full" />
+        <h3 class="font-semibold text-lg">Dresses</h3>
+      </div>
+      <div class="bg-pink-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/200x200/?fashion,shoes" alt="Footwear" class="mx-auto mb-4 rounded-full" />
+        <h3 class="font-semibold text-lg">Footwear</h3>
+      </div>
+      <div class="bg-pink-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/200x200/?fashion,bag" alt="Accessories" class="mx-auto mb-4 rounded-full" />
+        <h3 class="font-semibold text-lg">Accessories</h3>
+      </div>
+      <div class="bg-pink-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/200x200/?fashion,tshirt" alt="T-Shirts" class="mx-auto mb-4 rounded-full" />
+        <h3 class="font-semibold text-lg">T-Shirts</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Sellers -->
+  <section class="bg-gray-100 py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold">Best Sellers</h2>
+    </div>
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-4">
+      <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/400x400/?fashion" alt="Product 1" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">Elegant Kurti</h3>
+          <p class="text-pink-600 font-bold">$39.99</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/400x400/?jewelry" alt="Product 2" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">Gold Plated Necklace</h3>
+          <p class="text-pink-600 font-bold">$24.99</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/400x400/?heels" alt="Product 3" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">Stylish Heels</h3>
+          <p class="text-pink-600 font-bold">$44.99</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+        <img src="https://source.unsplash.com/400x400/?watch" alt="Product 4" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <h3 class="font-semibold text-lg">Classic Watch</h3>
+          <p class="text-pink-600 font-bold">$49.99</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / CTA -->
+  <section class="py-16 text-center bg-pink-50">
+    <h2 class="text-3xl font-bold mb-4 text-pink-700">Why Elegance Emporium?</h2>
+    <p class="max-w-xl mx-auto text-gray-600 mb-6">
+      We blend elegance and fashion to bring you premium-quality products at affordable prices.
+      Your confidence, your style — our passion.
+    </p>
+    <a href="/shop.html" class="bg-pink-600 text-white px-6 py-3 rounded hover:bg-pink-700 transition">Start Shopping</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 py-8 text-center">
+    <p>&copy; 2025 Elegance Emporium. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elegance Emporium Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Scroll lock when cart open */
+    body.cart-open {
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/index1.html" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800"> Elegance Emporium</a>
+      <nav>
+        <ul id="nav-links" class="hidden md:flex space-x-8 text-gray-700 font-semibold">
+          <li><a href="/profile.html" class="hover:text-indigo-600">Products</a></li>
+          <li><a href="/index1.html" class="hover:text-indigo-600">Home</a></li>
+          <li><button id="cart-btn" class="relative hover:text-indigo-600 focus:outline-none">
+            Cart
+            <span id="cart-count" class="absolute -top-2 -right-3 bg-red-600 text-white rounded-full px-2 text-xs font-bold">0</span>
+          </button></li>
+        </ul>
+        <!-- Hamburger -->
+        <button id="hamburger" class="md:hidden focus:outline-none">
+          <svg class="w-7 h-7 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </nav>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden bg-white shadow-md">
+      <ul class="flex flex-col px-4 py-2 space-y-2 text-gray-700 font-semibold">
+        <li><a href="/profile.html" class="block hover:text-indigo-600">Products</a></li>
+        <li><a href="/shop.html" class="block hover:text-indigo-600">Home</a></li>
+        <li><button id="cart-btn-mobile" class="w-full text-left hover:text-indigo-600 focus:outline-none">Cart <span id="cart-count-mobile" class="ml-2 font-bold text-red-600">0</span></button></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="bg-indigo-600 text-white py-16 text-center px-4">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-3"> Elegance Emporium for Everyone</h1>
+    <p class="text-lg md:text-xl max-w-2xl mx-auto">Comfortable, stylish, and affordable T-shirts for all ages and styles.</p>
+  </section>
+
+  <!-- Product Listing -->
+  <main class="container mx-auto px-4 my-12 flex-grow">
+    <h2 class="text-3xl font-bold mb-8 text-gray-800">Our Products</h2>
+
+    <div id="product-grid" class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- Product cards inserted by JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 border-t mt-auto">
+    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row justify-between text-gray-600 text-sm">
+      <div>&copy; 2025 Elegance Emporium. All rights reserved.</div>
+      <div class="space-x-6 mt-2 md:mt-0">
+        <a href="#" class="hover:text-indigo-600">About</a>
+        <a href="#" class="hover:text-indigo-600">Contact</a>
+        <a href="#" class="hover:text-indigo-600">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Sidebar Popup -->
+  <aside id="cart-sidebar" class="fixed top-0 right-0 w-80 max-w-full h-full bg-white shadow-lg transform translate-x-full transition-transform z-50 flex flex-col">
+    <header class="flex items-center justify-between px-6 py-4 border-b">
+      <h3 class="text-xl font-bold text-gray-800">Your Cart</h3>
+      <button id="close-cart" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </header>
+    <div id="cart-items" class="flex-grow overflow-y-auto px-6 py-4 space-y-4">
+      <p class="text-gray-500">No items in cart.</p>
+    </div>
+    <footer class="border-t px-6 py-4">
+      <div class="flex justify-between text-lg font-semibold text-gray-800 mb-4">
+        <span>Total:</span>
+        <span id="cart-total">$0.00</span>
+      </div>
+      <button id="checkout-btn" class="w-full bg-indigo-600 text-white py-3 rounded hover:bg-indigo-700 disabled:opacity-50"
+        disabled>Checkout</button>
+    </footer>
+  </aside>
+
+<script>
+  // Products data
+  const products = [
+    {
+      id: 1,
+      name: "Classic White Tee",
+      price: 19.99,
+      image: "https://images.unsplash.com/photo-1520975696417-09f356cc1cc8?auto=format&fit=crop&w=400&q=80",
+      description: "Soft cotton white T-shirt perfect for any occasion."
+    },
+    {
+      id: 2,
+      name: "Vintage Black Tee",
+      price: 24.99,
+      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80",
+      description: "Retro style black T-shirt with a comfy fit."
+    },
+    {
+      id: 3,
+      name: "Blue Graphic Tee",
+      price: 29.99,
+      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80",
+      description: "Blue tee with modern graphic design."
+    },
+    {
+      id: 4,
+      name: "Red Sporty Tee",
+      price: 21.99,
+      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80",
+      description: "Bright red sporty T-shirt made with breathable fabric."
+    },
+    {
+      id: 5,
+      name: "Green Eco Tee",
+      price: 26.50,
+      image: "https://images.unsplash.com/photo-1522156373669-2a9e0a3b2b51?auto=format&fit=crop&w=400&q=80",
+      description: "Eco-friendly green tee made from organic cotton."
+    },
+    {
+      id: 6,
+      name: "Grey Heather Tee",
+      price: 18.00,
+      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+      description: "Casual grey heather T-shirt with soft texture."
+    },
+    {
+      id: 7,
+      name: "Yellow Summer Tee",
+      price: 22.00,
+      image: "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=400&q=80",
+      description: "Sunny yellow tee perfect for summer days."
+    },
+    {
+      id: 8,
+      name: "Striped Navy Tee",
+      price: 23.99,
+      image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=400&q=80",
+      description: "Navy blue striped tee with classic look."
+    }
+  ];
+
+  // Cart array
+  let cart = [];
+
+  // Elements references
+  const productGrid = document.getElementById('product-grid');
+  const cartBtn = document.getElementById('cart-btn');
+  const cartBtnMobile = document.getElementById('cart-btn-mobile');
+  const cartSidebar = document.getElementById('cart-sidebar');
+  const closeCartBtn = document.getElementById('close-cart');
+  const cartItemsContainer = document.getElementById('cart-items');
+  const cartTotalEl = document.getElementById('cart-total');
+  const cartCount = document.getElementById('cart-count');
+  const cartCountMobile = document.getElementById('cart-count-mobile');
+  const checkoutBtn = document.getElementById('checkout-btn');
+  const hamburgerBtn = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Render products in grid
+  function renderProducts() {
+    productGrid.innerHTML = '';
+    products.forEach(prod => {
+      const card = document.createElement('div');
+      card.className = "bg-white rounded-lg shadow hover:shadow-lg transition-shadow flex flex-col";
+
+      card.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}" class="rounded-t-lg h-48 object-cover w-full" />
+        <div class="p-4 flex flex-col flex-grow">
+          <h3 class="text-lg font-semibold mb-1">${prod.name}</h3>
+          <p class="text-indigo-600 font-bold mb-3">$${prod.price.toFixed(2)}</p>
+          <button data-id="${prod.id}" class="add-to-cart mt-auto bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">Add to Cart</button>
+        </div>
+      `;
+
+      productGrid.appendChild(card);
+    });
+  }
+
+  // Add product to cart
+  function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    // Check if already in cart
+    const cartItem = cart.find(item => item.id === productId);
+    if (cartItem) {
+      cartItem.qty += 1;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+
+    updateCartUI();
+    openCart();
+  }
+
+  // Remove product from cart
+  function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    updateCartUI();
+  }
+
+  // Calculate total price
+  function getTotal() {
+    return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  }
+
+  // Update cart UI
+  function updateCartUI() {
+    // Update cart count badges
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    cartCount.textContent = totalQty;
+    cartCountMobile.textContent = totalQty;
+
+    if (totalQty === 0) {
+      cartCount.style.display = 'none';
+      cartCountMobile.style.display = 'none';
+    } else {
+      cartCount.style.display = 'inline-block';
+      cartCountMobile.style.display = 'inline-block';
+    }
+
+    // Render cart items or no items message
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML = `<p class="text-gray-500">No items in cart.</p>`;
+      checkoutBtn.disabled = true;
+      cartTotalEl.textContent = '$0.00';
+      return;
+    }
+
+    checkoutBtn.disabled = false;
+
+    cartItemsContainer.innerHTML = '';
+    cart.forEach(item => {
+      const itemEl = document.createElement('div');
+      itemEl.className = "flex items-center space-x-4";
+
+      itemEl.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded" />
+        <div class="flex-grow">
+          <h4 class="font-semibold">${item.name}</h4>
+          <p class="text-sm text-gray-600">Qty: ${item.qty}</p>
+          <p class="text-indigo-600 font-bold">$${(item.price * item.qty).toFixed(2)}</p>
+        </div>
+        <button data-id="${item.id}" class="remove-item text-red-600 hover:text-red-800 font-bold text-lg focus:outline-none">&times;</button>
+      `;
+
+      cartItemsContainer.appendChild(itemEl);
+    });
+
+    cartTotalEl.textContent = `$${getTotal().toFixed(2)}`;
+  }
+
+  // Open cart sidebar
+  function openCart() {
+    cartSidebar.classList.remove('translate-x-full');
+    document.body.classList.add('cart-open');
+  }
+
+  // Close cart sidebar
+  function closeCart() {
+    cartSidebar.classList.add('translate-x-full');
+    document.body.classList.remove('cart-open');
+  }
+
+  // Toggle mobile menu
+  function toggleMobileMenu() {
+    if (mobileMenu.classList.contains('hidden')) {
+      mobileMenu.classList.remove('hidden');
+    } else {
+      mobileMenu.classList.add('hidden');
+    }
+  }
+
+  // Event listeners
+  document.addEventListener('click', (e) => {
+    // Add to cart buttons
+    if (e.target.classList.contains('add-to-cart')) {
+      const id = parseInt(e.target.dataset.id);
+      addToCart(id);
+    }
+
+    // Remove from cart buttons
+    if (e.target.classList.contains('remove-item')) {
+      const id = parseInt(e.target.dataset.id);
+      removeFromCart(id);
+    }
+  });
+
+  cartBtn.addEventListener('click', openCart);
+  cartBtnMobile.addEventListener('click', () => {
+    openCart();
+    mobileMenu.classList.add('hidden');
+  });
+  closeCartBtn.addEventListener('click', closeCart);
+
+  hamburgerBtn.addEventListener('click', toggleMobileMenu);
+
+  checkoutBtn.addEventListener('click', () => {
+    alert("Checkout is not functional in this prototype.");
+  });
+
+  // Initialize
+  renderProducts();
+  updateCartUI();
+</script>
+
+</body>
+</html>

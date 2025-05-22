@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop - Trendy Tees</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/profile.html" class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">TrendyTees</a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-8 text-gray-700 font-semibold">
+        <a href="/profile.html" class="hover:text-indigo-600">Home</a>
+        <a href="/shop.html" class="hover:text-indigo-600">Products</a>
+        <button id="cart-button" class="hover:text-indigo-600 focus:outline-none">Cart (<span id="cart-count">0</span>)</button>
+      </nav>
+
+      <!-- Mobile Hamburger -->
+      <button id="menu-button" class="md:hidden focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" class="hidden bg-white shadow-md md:hidden">
+      <a href="/profile.html" class="block px-4 py-3 border-b border-gray-200 hover:bg-indigo-50">Home</a>
+      <a href="/shop.html" class="block px-4 py-3 border-b border-gray-200 hover:bg-indigo-50">Products</a>
+      <button id="cart-button-mobile" class="w-full text-left px-4 py-3 hover:bg-indigo-50">Cart (<span id="cart-count-mobile">0</span>)</button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-indigo-600 text-white py-20 text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Trendy Tees for Everyone</h1>
+    <p class="text-lg md:text-xl max-w-xl mx-auto">Discover your perfect fit from our exclusive collection.</p>
+  </section>
+
+  <!-- Product Grid -->
+  <main class="container mx-auto px-4 py-12">
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8"></div>
+  </main>
+
+  <!-- Cart Sidebar -->
+  <aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-80 bg-white shadow-lg transform translate-x-full transition-transform z-50 flex flex-col">
+    <div class="flex justify-between items-center p-4 border-b">
+      <h2 class="text-xl font-bold">Your Cart</h2>
+      <button id="close-cart" class="text-gray-600 hover:text-gray-900 focus:outline-none">&times;</button>
+    </div>
+    <div id="cart-items" class="flex-grow overflow-y-auto p-4 space-y-4">
+      <!-- Cart items inserted here by JS -->
+    </div>
+    <div class="p-4 border-t">
+      <div class="flex justify-between font-semibold text-lg mb-4">
+        <span>Total:</span>
+        <span id="cart-total">$0.00</span>
+      </div>
+      <button id="checkout-btn" class="w-full bg-indigo-600 text-white py-3 rounded hover:bg-indigo-700 transition focus:outline-none" disabled>
+        Checkout
+      </button>
+    </div>
+  </aside>
+
+<script>
+  // Products data
+  const products = [
+    {
+      id: 1,
+      name: "Classic White Tee",
+      price: 19.99,
+      image: "https://images.unsplash.com/photo-1520975696417-09f356cc1cc8?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 2,
+      name: "Vintage Black Tee",
+      price: 24.99,
+      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 3,
+      name: "Blue Graphic Tee",
+      price: 29.99,
+      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 4,
+      name: "Red Sporty Tee",
+      price: 21.99,
+      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 5,
+      name: "Green Eco Tee",
+      price: 26.50,
+      image: "https://images.unsplash.com/photo-1522156373669-2a9e0a3b2b51?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 6,
+      name: "Grey Heather Tee",
+      price: 18.00,
+      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 7,
+      name: "Yellow Summer Tee",
+      price: 22.00,
+      image: "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=600&q=80",
+    },
+    {
+      id: 8,
+      name: "Striped Navy Tee",
+      price: 23.99,
+      image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=600&q=80",
+    }
+  ];
+
+  // Cart stored in localStorage or empty
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Save cart to localStorage
+  function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Update cart count badges
+  function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('cart-count-mobile').textContent = count;
+  }
+
+  // Render products grid
+  function renderProducts() {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = "";
+    products.forEach(product => {
+      const a = document.createElement('a');
+      a.href = `/product.html?id=${product.id}`;
+      a.className = "block bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden";
+
+      a.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover" />
+        <div class="p-4">
+          <h3 class="font-semibold text-lg text-gray-800">${product.name}</h3>
+          <p class="text-indigo-600 font-bold mt-2">$${product.price.toFixed(2)}</p>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+  }
+
+  // Show cart sidebar
+  function openCart() {
+    document.getElementById('cart-sidebar').classList.remove('translate-x-full');
+  }
+  // Hide cart sidebar
+  function closeCart() {
+    document.getElementById('cart-sidebar').classList.add('translate-x-full');
+  }
+
+  // Render cart items
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    container.innerHTML = "";
+
+    if (cart.length === 0) {
+      container.innerHTML = '<p class="text-gray-500">Your cart is empty.</p>';
+      document.getElementById('checkout-btn').disabled = true;
+      document.getElementById('cart-total').textContent = '$0.00';
+      return;
+    }
+
+    let total = 0;
+
+    cart.forEach(item => {
+      total += item.price * item.qty;
+      const div = document.createElement('div');
+      div.className = "flex items-center space-x-4";
+
+      div.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded" />
+        <div class="flex-grow">
+          <p class="font-semibold">${item.name}</p>
+          <p>Qty: ${item.qty}</p>
+          <p class="text-indigo-600 font-bold">$${(item.price * item.qty).toFixed(2)}</p>
+        </div>
+        <button class="text-red-600 font-bold text-xl hover:text-red-800 remove-btn" data-key="${item.key}">&times;</button>
+      `;
+
+      container.appendChild(div);
+    });
+
+    document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('checkout-btn').disabled = false;
+
+    // Add remove button listeners
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-key');
+        cart = cart.filter(item => item.key !== key);
+        saveCart();
+        renderCart();
+        updateCartCount();
+      });
+    });
+  }
+
+  // Add item to cart
+  function addToCart(productId, size = null) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    // Use size in key if you want to support sizes (optional here)
+    const key = size ? `${product.id}-${size}` : `${product.id}`;
+
+    const existing = cart.find(item => item.key === key);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({
+        key,
+        id: product.id,
+        name: product.name + (size ? ` (Size: ${size})` : ''),
+        price: product.price,
+        qty: 1,
+        image: product.image,
+        size: size
+      });
+    }
+    
+    saveCart();
+    updateCartCount();
+  }
+  
+
+
+ 
